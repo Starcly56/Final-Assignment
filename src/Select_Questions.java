@@ -1,0 +1,59 @@
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.*;
+public class Select_Questions extends JFrame implements ActionListener {
+	JMenuBar menubar;
+	JMenu Course,Result,About;
+	JMenuItem STW210CT,STW205CDE,STW290COM,STW210CS;
+	public static void main(String[] args) {
+		new Select_Questions().setVisible(true);
+	}
+	public Select_Questions() {
+		setTitle("Student Dashboard");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setBounds(500,100,600, 400);
+		setLayout(null);
+		menubar = new JMenuBar();
+		Course= new JMenu("Course");
+		Result= new JMenu("Result");
+		About= new JMenu("About");
+		STW210CT= new JMenuItem("STW210 CT");
+		STW205CDE= new JMenuItem("STW205 CDE");
+		STW290COM= new JMenuItem("STW290 COM");
+		STW210CS= new JMenuItem("STW210 CS");
+		menubar.add(Course);
+		menubar.add(Result);
+		menubar.add(About);
+		Course.add(STW210CT);
+		Course.add(STW205CDE);
+		Course.add(STW290COM);
+		Course.add(STW210CS);
+		add(menubar);
+		setJMenuBar(menubar);
+		STW210CT.addActionListener(this);
+		STW205CDE.addActionListener(this);
+		STW210CS.addActionListener(this);
+		STW290COM.addActionListener(this);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(STW210CT))
+		{
+			new STW210CT_Questions().setVisible(true);
+		}
+		if(e.getSource().equals(STW205CDE))
+		{
+			new STW205CDE_Questions().setVisible(true);
+		}
+		if(e.getSource().equals(STW290COM))
+		{
+			new STW290COM_Questions().setVisible(true);
+		}
+		if(e.getSource().equals(STW210CS))
+		{
+			new STW210CS_Questions().setVisible(true);
+		}
+		
+	}
+}
