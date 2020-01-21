@@ -2,6 +2,9 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -14,7 +17,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class STW210CT_Questions extends JFrame implements ActionListener{
+public class STW210CS_Questions extends JFrame implements ActionListener{
 	
 		JMenuBar menubar;
 		JMenu Back;
@@ -23,10 +26,10 @@ public class STW210CT_Questions extends JFrame implements ActionListener{
 		JRadioButton option1,option2,option3;
 		public static void main(String[] args) {
 			//name specific no -->anonymous
-			new STW210CT_Questions().setVisible(true);
+			new STW210CS_Questions().setVisible(true);
 	}
-		public STW210CT_Questions()  {
-			setTitle("Questions for STW210 CT");
+		public STW210CS_Questions()  {
+			setTitle("Questions for STW210 CS");
 			setDefaultCloseOperation(EXIT_ON_CLOSE);
 			setBounds(500,100,600, 400);
 			setLayout(null);
@@ -63,14 +66,41 @@ public class STW210CT_Questions extends JFrame implements ActionListener{
 			 button_next=new JButton("Next");
 			 button_next.setBounds(250, 200, 100, 20);
 			 add(button_next);
-			 Back.addActionListener(this);
+			 Back.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					new Select_Questions().setVisible(true);
+					
+				}
+			});
 		}
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource().equals(Back)) {
-				new Select_Questions().setVisible(true);
-			}
-			
 		}
 
 }
