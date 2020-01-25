@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 
 public class Admin_Dashboard extends JFrame implements ActionListener{
 	JMenuBar menubar;
-	JMenu Questions,Logout;
+	JMenu Questions,Student,Logout;
 	JMenuItem Create_Questions,Delete_Questions;
 	
 	public Admin_Dashboard(){
@@ -31,10 +31,12 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 		}
 		menubar = new JMenuBar();
 		Questions= new JMenu("Questions");
+		Student=new JMenu("Registered Students");
 		Logout= new JMenu("Logout");
 		Create_Questions= new JMenuItem("Create Questions");
 		Delete_Questions= new JMenuItem("Delete Questions");
 		menubar.add(Questions);
+		menubar.add(Student);
 		menubar.add(Logout);
 		Questions.add(Create_Questions);
 		Questions.add(Delete_Questions);
@@ -60,6 +62,28 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 			@Override
 			public void mouseClicked(MouseEvent e) {	
 				new Login_page().setVisible(true);
+			}
+		});
+		Student.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {	
+				new Student_Record().setVisible(true);
 			}
 		});
 		Create_Questions.addActionListener(this);

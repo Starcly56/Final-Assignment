@@ -14,9 +14,7 @@ public class Login_page extends JFrame implements ActionListener {
 	JButton button_login,button_cancel,button_createaccount;
 	public static int USER_ID=0;
 	public static  String USER_EMAIL="";
-	public static void main(String[] args) {
-		new Login_page().setVisible(true);
-	}
+	
 	public  Login_page() { 
 		setTitle("Student Login");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

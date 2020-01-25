@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.plaf.OptionPaneUI;
 
 public class Manage_Student_Details extends JFrame  {
 	JTextField text_ID,text_studentname,text_email,text_address,text_phonenumber,text_password;
@@ -136,7 +137,11 @@ public class Manage_Student_Details extends JFrame  {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
+				int dialogButton=JOptionPane.showConfirmDialog(null,"Do you really want to delete your account?","Delete Account",JOptionPane.YES_NO_OPTION);
+				try
+				{
+				if(dialogButton==JOptionPane.YES_OPTION)
+				{
 					boolean status=dc.deleteStudent(Login_page.USER_ID);
 					if(status) {
 						JOptionPane.showMessageDialog(null, "Your account is deleted");
@@ -145,8 +150,11 @@ public class Manage_Student_Details extends JFrame  {
 					else { 
 						JOptionPane.showMessageDialog(null, "Cannot be deleted");
 					}
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, " Sys Error");
+				}
+				}
+				catch(Exception ae)
+				{
+					JOptionPane.showMessageDialog(null, ae);
 				}
 			}
 		});

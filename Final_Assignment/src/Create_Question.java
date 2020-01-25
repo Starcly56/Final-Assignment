@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,6 +19,8 @@ import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -24,6 +28,8 @@ import javax.swing.JTextPane;
 import javax.swing.border.Border;
 
 public class Create_Question extends JFrame implements ActionListener{
+	JMenuBar menubar;
+	JMenu Back;
 	JLabel create_question;
 	JEditorPane Info;
 	JLabel label_Subject_Code,label_Question,label_Answer1,label_Answer2,label_Answer3,label_Answer4;
@@ -42,6 +48,11 @@ public class Create_Question extends JFrame implements ActionListener{
 		}
 		setBounds(400,150,600,400);
 		setLayout(null);
+		menubar = new JMenuBar();
+		Back = new JMenu("Back");
+		menubar.add(Back);
+		add(menubar);
+		setJMenuBar(menubar);
 		//for headline
 		create_question=new JLabel("Creating questions");
 		create_question.setFont(new Font("Arial",Font.BOLD,20));
@@ -121,11 +132,43 @@ public class Create_Question extends JFrame implements ActionListener{
 		 add(Reset);
 		 Add_Question_Answer.addActionListener(this);
 		 Reset.addActionListener(this);
+		 Back.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					new Admin_Dashboard().setVisible(true);;
+
+				}
+			});
 	}
 
-	public static void main(String[] args) {
-		new Create_Question().setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		new Create_Question().setVisible(true);
+//	}
 //	public void insert() {
 //		String subject = text_Subject_Code.getText();
 //		String question=text_Question.getText();
