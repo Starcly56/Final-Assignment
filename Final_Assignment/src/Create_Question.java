@@ -4,11 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,62 +24,50 @@ import javax.swing.JTextPane;
 import javax.swing.border.Border;
 
 public class Create_Question extends JFrame implements ActionListener{
-	JLabel create_question,info,info1,info2,info3,info4;
+	JLabel create_question;
+	JEditorPane Info;
 	JLabel label_Subject_Code,label_Question,label_Answer1,label_Answer2,label_Answer3,label_Answer4;
-	JTextField text_Subject_Code,text_Answer1,text_Answer2,text_Answer3,text_Answer4;
-	JTextField text_Question;
+	JTextField text_Question,text_Answer1,text_Answer2,text_Answer3,text_Answer4;
+	JComboBox Subject_Code;
 	JButton Add_Question_Answer, Reset;
 	public Create_Question() {
 		setTitle(" Adding Question");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().setBackground(Color.GRAY);
-		setBounds(500,100,600, 400);
+//		getContentPane().setBackground(Color.GRAY);
+		try {
+			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images//Welcome_page.jpg")))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setBounds(400,150,600,400);
 		setLayout(null);
 		//for headline
 		create_question=new JLabel("Creating questions");
-		create_question.setFont(new Font("Arial",Font.ROMAN_BASELINE,20));
+		create_question.setFont(new Font("Arial",Font.BOLD,20));
 		create_question.setBounds(200, 0, 200, 25);
-		create_question.setForeground(Color.blue);
+		create_question.setForeground(Color.black);
 		add(create_question);
 		//for info
-		info=new JLabel("Subject Code");
-		info.setBounds(380, 35, 200, 20);
-		add(info);
-		info1=new JLabel("201=Communication Skills");
-		info1.setBounds(380, 55, 200, 20);
-		add(info1);
-		info2=new JLabel("210=Data Structures & Algorithms");
-		info2.setBounds(380, 75, 200, 20);
-		add(info2);
-		info3=new JLabel("205=Modern Web");
-		info3.setBounds(380, 95, 200, 20);
-		add(info3);
-		info4=new JLabel("290=Technology Ethics");
-		info4.setBounds(380, 115, 200, 20);
-		add(info4);
+		Info=new JEditorPane();
+		Info.setContentType("text");
+		Info.setBounds(380, 35, 190, 85);
+		Info.setText("Subject Code\n201-Communication Skills\n210-Data Structures & Algorithms\n205-Modern Web\n290-Technology Ethics");
+		Info.setEditable(false);
+		Info.setBackground(Color.decode("#ffa500"));
+		add(Info);
 		//for Subject Code
 		label_Subject_Code= new JLabel("Subject Code"); 
 		label_Subject_Code.setBounds(15,35,150,20);
-		text_Subject_Code=new JTextField();
-//		text_Subject_Code.addFocusListener(new FocusListener() {
-//			
-//			@Override
-//			public void focusLost(FocusEvent e) {
-//				if(text_Subject_Code.getText().isEmpty()) {
-//					text_Subject_Code.setText("Enter Subject Code");
-//				}
-//			}
-//			@Override
-//			public void focusGained(FocusEvent e) {
-//				if(text_Subject_Code.getText().equals("Enter Subject Code")) {
-//					text_Subject_Code.setText("");
-//				}
-//			}
-//		});
-		text_Subject_Code.setBounds(150, 35, 150, 20);
-		text_Subject_Code.setBorder(null);
+		Subject_Code=new JComboBox();
+		Subject_Code.addItem("201");
+		Subject_Code.addItem("210");
+		Subject_Code.addItem("205");
+		Subject_Code.addItem("290");
+		Subject_Code.setBounds(150, 35, 150, 20);
+		Subject_Code.setBorder(null);
 		 add(label_Subject_Code);
-		 add(text_Subject_Code);
+		 add(Subject_Code);
 		//for Question
 		 label_Question= new JLabel("Question"); 
 		 label_Question.setBounds(15,60,150,20);
@@ -116,9 +110,13 @@ public class Create_Question extends JFrame implements ActionListener{
 		 add(text_Answer4);
 		 //for buttons
 		 Add_Question_Answer = new JButton("Add");
-		 Add_Question_Answer.setBounds(15,185,100,20);
+		 Add_Question_Answer.setBounds(15,185,100,25);
+		 Add_Question_Answer.setBackground(Color.decode("#D4AF37"));
 		 Reset = new JButton("Reset");
-		 Reset.setBounds(150,185,100,20);
+		 Reset.setBounds(150,185,100,25);
+		 Reset.setForeground(Color.white);
+		 Reset.setBackground(Color.black);
+
 		 add(Add_Question_Answer);
 		 add(Reset);
 		 Add_Question_Answer.addActionListener(this);
@@ -160,7 +158,7 @@ public class Create_Question extends JFrame implements ActionListener{
 //	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String subject_id = text_Subject_Code.getText();
+		String subject_id = Subject_Code.getSelectedItem().toString();
 		String question = text_Question.getText();
 		String answer1 = text_Answer1.getText();
 		String answer2 = text_Answer2.getText();
@@ -177,7 +175,7 @@ public class Create_Question extends JFrame implements ActionListener{
 					int output=dc.insertQuestions(subject_id, question, answer1, answer2, answer3, answer4);
 					if(output>0) {
 						JOptionPane.showMessageDialog(null, "Question is added Successfully");
-						dispose();
+						new Admin_Dashboard().setVisible(true);
 					}
 					else {
 						JOptionPane.showMessageDialog(null, "Question cannot be added");
@@ -189,7 +187,7 @@ public class Create_Question extends JFrame implements ActionListener{
 			}
 		}
 		if(e.getSource().equals(Reset)) {
-			text_Subject_Code.setText(null);
+			Subject_Code.setSelectedItem(null);
 			text_Question.setText(null);
 			text_Answer1.setText(null);
 			text_Answer2.setText(null);

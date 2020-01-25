@@ -2,7 +2,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -10,22 +16,28 @@ import javax.swing.JMenuItem;
 public class Admin_Dashboard extends JFrame implements ActionListener{
 	JMenuBar menubar;
 	JMenu Questions,Logout;
-	JMenuItem Create_Questions,Edit_Questions;
+	JMenuItem Create_Questions,Delete_Questions;
 	
 	public Admin_Dashboard(){
 		setTitle("Admin Dashboard");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBounds(500,100,600, 400);
+		setBounds(400,150,600,400);
 		setLayout(null);
+		try {
+			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images//Admin_Dashboard.jpg")))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		menubar = new JMenuBar();
 		Questions= new JMenu("Questions");
 		Logout= new JMenu("Logout");
 		Create_Questions= new JMenuItem("Create Questions");
-		Edit_Questions= new JMenuItem("Edit Questions");
+		Delete_Questions= new JMenuItem("Delete Questions");
 		menubar.add(Questions);
 		menubar.add(Logout);
 		Questions.add(Create_Questions);
-		Questions.add(Edit_Questions);
+		Questions.add(Delete_Questions);
 		add(menubar);
 		setJMenuBar(menubar);
 		Logout.addMouseListener(new MouseListener() {
@@ -51,7 +63,7 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 			}
 		});
 		Create_Questions.addActionListener(this);
-		Edit_Questions.addActionListener(this);
+		Delete_Questions.addActionListener(this);
 	}
 	public static void main(String[] args) {
 		new Admin_Dashboard().setVisible(true);
@@ -61,8 +73,8 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 		if(e.getSource().equals(Create_Questions)) {
 			new Create_Question().setVisible(true);
 		}
-		if(e.getSource().equals(Edit_Questions)) {
-			new Edit_Question().setVisible(true);
+		if(e.getSource().equals(Delete_Questions)) {
+			new Delete_Question().setVisible(true);
 		}
 	}
 }

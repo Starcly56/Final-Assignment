@@ -1,13 +1,18 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -31,44 +36,51 @@ public class Signup_Page extends JFrame implements ActionListener{
 	public Signup_Page() {
 		setTitle("Student Sign Up");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBounds(500,100,600, 400);
-		getContentPane().setBackground(Color.gray);
+		setResizable(false);
+		setBounds(400,150,600,400);
+//		getContentPane().setBackground(Color.decode("#ffff1c"));
+		try {
+			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images//Signup_Page.jpg")))));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		setLayout(null);
 		//for headline
 		labelsignup=new JLabel("Sign Up for Student");
-		labelsignup.setFont(new Font("Arial",Font.ITALIC,20));
-		labelsignup.setBounds(200, 0, 200, 20);
+		labelsignup.setFont(new Font("Arial",Font.BOLD,20));
+		labelsignup.setBounds(200, 0, 200, 25);
 		add(labelsignup);
 		//for student name
-		 label_studentname= new JLabel("Name of Student"); 
-		 label_studentname.setBounds(150,50,150,20);
+		 label_studentname= new JLabel("Name of Student:"); 
+		 label_studentname.setBounds(160,50,150,20);
 		 text_studentname=new JTextField();
-		 text_studentname.setBounds(250, 50, 150, 20);
+		 text_studentname.setBounds(260, 50, 150, 20);
 		 add(label_studentname);
 		 add(text_studentname);
 		//for email
-		 label_email= new JLabel("Email"); 
-		 label_email.setBounds(150,80,150,20);
+		 label_email= new JLabel("Email:"); 
+		 label_email.setBounds(160,80,150,20);
 		 text_email=new JTextField();
-		 text_email.setBounds(250, 80, 150, 20);
+		 text_email.setBounds(260, 80, 150, 20);
 		 add(label_email);
 		 add(text_email);
 		//for password
-		 label_password= new JLabel("Password"); 
-		 label_password.setBounds(150,110,150,20);
+		 label_password= new JLabel("Password:"); 
+		 label_password.setBounds(160,110,150,20);
 		 text_password=new JPasswordField();
-		 text_password.setBounds(250, 110, 150, 20);
+		 text_password.setBounds(260, 110, 150, 20);
 		 add(label_password);
 		 add(text_password);
 		 //for Gender
-		 label_Gender=new JLabel("Gender");
-		 label_Gender.setBounds(150, 140, 150, 20);
+		 label_Gender=new JLabel("Gender:");
+		 label_Gender.setBounds(160, 140, 150, 20);
 		 male=new JRadioButton("Male",true);
 		 female= new JRadioButton("Female");
-		 male.setBounds(250, 140, 80, 20);
-		 male.setBackground(null);
-		 female.setBounds(330, 140, 80, 20);
-		 female.setBackground(null);
+		 male.setBounds(260, 140, 80, 20);
+		 male.setContentAreaFilled(false);
+		 female.setBounds(340, 140, 80, 20);
+		 female.setContentAreaFilled(false);
 		 ButtonGroup bg= new ButtonGroup();
 		 bg.add(male);
 		 bg.add(female);
@@ -76,22 +88,22 @@ public class Signup_Page extends JFrame implements ActionListener{
 		 add(male);
 		 add(female);
 		 //for address
-		 label_address = new JLabel("Address");
-		 label_address.setBounds(150,170,150,20);
+		 label_address = new JLabel("Address:");
+		 label_address.setBounds(160,170,150,20);
 		 text_address = new JTextField();
-		 text_address.setBounds(250,170,150,20);
+		 text_address.setBounds(260,170,150,20);
 		 add(label_address);
 		 add(text_address);
 		 //for phone number
-		 label_phonenumber = new JLabel("Phone Number");
-		 label_phonenumber.setBounds(150,200,150,20);
+		 label_phonenumber = new JLabel("Phone Number:");
+		 label_phonenumber.setBounds(160,200,150,20);
 		 text_phonenumber = new JTextField();
-		 text_phonenumber.setBounds(250,200,150,20);
+		 text_phonenumber.setBounds(260,200,150,20);
 		 add(label_phonenumber);
 		 add(text_phonenumber);
 		 //for batch
-		 label_batch=new JLabel("Batch");
-		 label_batch.setBounds(150, 230, 150, 20);
+		 label_batch=new JLabel("Batch:");
+		 label_batch.setBounds(160, 230, 150, 20);
 		 batch_selection = new JComboBox();
 		 batch_selection.addItem("24 A");
 		 batch_selection.addItem("24 B");
@@ -99,14 +111,14 @@ public class Signup_Page extends JFrame implements ActionListener{
 		 batch_selection.addItem("25 B");
 		 batch_selection.addItem("25 C");
 		 batch_selection.addItem("25 D");
-		 batch_selection.setBounds(250, 230, 150, 20);
+		 batch_selection.setBounds(260, 230, 150, 20);
 		 add(label_batch);
 		 add(batch_selection);
 		 //for buttons
 		 button_signup = new JButton("Sign Up");
-		 button_signup.setBounds(150,260,100,20);
+		 button_signup.setBounds(170,260,100,20);
 		 button_signup.setForeground(Color.white);
-		 button_signup.setBackground(Color.cyan);
+		 button_signup.setBackground(Color.decode("#D4AF37"));
 		 button_back_login = new JButton("Back to Login");
 		 button_back_login.setBounds(280,260,120,20);
 		 button_back_login.setForeground(Color.blue);
@@ -116,9 +128,9 @@ public class Signup_Page extends JFrame implements ActionListener{
 		 
 		//for tokennumber
 		 label_token = new JLabel("Token");
-		 label_token.setBounds(150,290,150,20);
+		 label_token.setBounds(160,290,150,20);
 		 text_token = new JTextField();
-		 text_token.setBounds(250,290,150,20);
+		 text_token.setBounds(260,290,150,20);
 		 text_token.setEditable(false);
 		 label_token.setVisible(false);
 		 text_token.setVisible(false);

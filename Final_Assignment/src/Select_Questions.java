@@ -3,30 +3,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.*;
 public class Select_Questions extends JFrame implements ActionListener {
 	JMenuBar menubar;
-	JMenu Course,Edit_Credientials,Logout;
+	JMenu Course,Manage_Account,Logout;
 	JMenuItem STW210CT,STW205CDE,STW290COM,STW210CS;
-	public static void main(String[] args) {
-		new Select_Questions().setVisible(true);
-	}
+
 	public Select_Questions() {
 		setTitle("Student Dashboard");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setBounds(500,100,600, 400);
+		setBounds(400,150,600,400);
+		getContentPane().setBackground(Color.decode("#ffa500"));
 		setLayout(null);
 		menubar = new JMenuBar();
 		Course= new JMenu("Course");
-		Edit_Credientials= new JMenu("Edit Credentials");
+		Manage_Account= new JMenu("Manage Account");
 		Logout= new JMenu("Logout");
 		STW210CT= new JMenuItem("STW210 CT");
 		STW205CDE= new JMenuItem("STW205 CDE");
 		STW290COM= new JMenuItem("STW290 COM");
 		STW210CS= new JMenuItem("STW210 CS");
 		menubar.add(Course);
-		menubar.add(Edit_Credientials);
+		menubar.add(Manage_Account);
 		menubar.add(Logout);
 		Course.add(STW210CT);
 		Course.add(STW205CDE);
@@ -38,7 +36,7 @@ public class Select_Questions extends JFrame implements ActionListener {
 		STW205CDE.addActionListener(this);
 		STW210CS.addActionListener(this);
 		STW290COM.addActionListener(this);
-		Edit_Credientials.addMouseListener(new MouseListener() {
+		Manage_Account.addMouseListener(new MouseListener() {
 			
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -66,7 +64,7 @@ public class Select_Questions extends JFrame implements ActionListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				new Edit_Student_Details().setVisible(true);
+				new Manage_Student_Details().setVisible(true);
 				
 			}
 		});
@@ -103,6 +101,7 @@ public class Select_Questions extends JFrame implements ActionListener {
 			}
 		});
 	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(STW210CT))
@@ -119,7 +118,7 @@ public class Select_Questions extends JFrame implements ActionListener {
 		}
 		if(e.getSource().equals(STW210CS))
 		{
-			new STW210CS_Questions().setVisible(true);
+			new STW201CS_Questions().setVisible(true);
 		}
 		
 	}
