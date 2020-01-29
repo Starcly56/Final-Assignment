@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 public class Login_page extends JFrame implements ActionListener {
 	JTextField text_username;
 	JPasswordField text_password;
@@ -41,6 +42,12 @@ public class Login_page extends JFrame implements ActionListener {
 		 label_username.setBounds(150,50,150,20);
 		 label_username.setForeground(Color.black);
 		 text_username=new JTextField();
+		 text_username.setBackground(Color.black);
+		 text_username.setForeground(Color.white);
+		 text_username.setFont(new Font("Arial",Font.BOLD,15));
+		 Border border = BorderFactory.createLineBorder(Color.white, 1);
+	        // set the border of this component
+		 text_username.setBorder(border);
 		 text_username.setBounds(250, 50, 150, 20);
 		 add(label_username);
 		 add(text_username);
@@ -50,6 +57,11 @@ public class Login_page extends JFrame implements ActionListener {
 		 label_password.setBounds(150,100,150,20);
 		 label_password.setForeground(Color.black);
 		 text_password = new JPasswordField();
+		 text_password.setBackground(Color.black);
+		 text_password.setForeground(Color.white);
+		 text_password.setFont(new Font("Arial",Font.BOLD,15));
+
+		 text_username.setBorder(border);
 		 text_password.setBounds(250,100,150,20);
 		 add(label_password);
 		 add(text_password);
@@ -80,7 +92,7 @@ public class Login_page extends JFrame implements ActionListener {
 		String token=text_password.getText().toString();
 		if(e.getSource().equals(button_cancel))
 		{
-			dispose();
+			new Welcome_page().setVisible(true);
 		}
 		if(e.getSource().equals(button_createaccount))
 		{
@@ -90,7 +102,6 @@ public class Login_page extends JFrame implements ActionListener {
 			if(username.isEmpty()&&token.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Fields are empty");
 			}
-
 			else if(username.isEmpty()){
 				JOptionPane.showMessageDialog(null, "Please input valid Email");
 				}

@@ -23,6 +23,7 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setBounds(400,150,600,400);
 		setLayout(null);
+		setResizable(false);
 		try {
 			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images//Admin_Dashboard.jpg")))));
 		} catch (IOException e) {
@@ -61,6 +62,7 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {	
+				dispose();
 				new Login_page().setVisible(true);
 			}
 		});
@@ -89,9 +91,9 @@ public class Admin_Dashboard extends JFrame implements ActionListener{
 		Create_Questions.addActionListener(this);
 		Delete_Questions.addActionListener(this);
 	}
-	public static void main(String[] args) {
-		new Admin_Dashboard().setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		new Admin_Dashboard().setVisible(true);
+//	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(Create_Questions)) {

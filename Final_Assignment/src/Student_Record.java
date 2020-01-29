@@ -16,14 +16,14 @@ public class Student_Record extends JFrame{
 		add(menubar);
 		setJMenuBar(menubar);
 		 setBounds(400,150,600,400); 
-	        setVisible(true); 
-	        setResizable(false);
-			setTitle("Registered Examinees");
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-			JPanel panel = new JPanel();
-			panel.setBackground(Color.decode("#1e90ff"));
-		  Vector columnNames = new Vector();
-	        Vector data = new Vector();
+        setVisible(true); 
+        setResizable(false);
+		setTitle("Registered Examinees");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.decode("#1e90ff"));
+	  Vector columnNames = new Vector();
+        Vector data = new Vector();
 	        
 	        try {
 	            Class.forName("com.mysql.jdbc.Driver").newInstance();

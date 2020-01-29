@@ -15,8 +15,9 @@ public class Select_Questions extends JFrame implements ActionListener {
 		setBounds(400,150,600,400);
 		getContentPane().setBackground(Color.decode("#ffa500"));
 		setLayout(null);
+		setResizable(false);
 		menubar = new JMenuBar();
-		Course= new JMenu("Course");
+		Course= new JMenu("Attend Exam");
 		Manage_Account= new JMenu("Manage Account");
 		Logout= new JMenu("Logout");
 		STW210CT= new JMenuItem("STW210 CT");
@@ -96,12 +97,16 @@ public class Select_Questions extends JFrame implements ActionListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				dispose();
 				new Login_page().setVisible(true);
 				
 			}
 		});
 	}
-
+	public static void main(String[]args)
+	{
+		new Select_Questions().setVisible(true);
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(STW210CT))

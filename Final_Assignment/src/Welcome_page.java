@@ -31,7 +31,7 @@ public class Welcome_page extends JFrame implements ActionListener {
 		}
 		//for welcome 
 		 label_welcome= new JLabel("Welcome to College MCQ Examination");	
-		 label_welcome.setForeground(Color.cyan);
+		 label_welcome.setForeground(Color.white);
 		 label_welcome.setFont(new Font("Arial",Font.BOLD,20));
 		 label_welcome.setBounds(110,50,380,25);
 		 add(label_welcome);
@@ -54,7 +54,6 @@ public class Welcome_page extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		new Welcome_page();
-		new Select_Questions();
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {

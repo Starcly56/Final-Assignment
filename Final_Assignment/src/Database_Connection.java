@@ -1,6 +1,9 @@
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
@@ -136,24 +139,24 @@ public class Database_Connection {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201");
 			rs=prpdstmt.executeQuery();
-
+			
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(null,ex);
 		}
 		return rs;
 	}
-	public ResultSet fetchQuestionfor210() {
-		try {
-			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=210");
-			rs=prpdstmt.executeQuery();
-
-		}
-		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null,ex);
-		}
-		return rs;
-	}
+//	public ResultSet fetchQuestionfor210() {
+//		try {
+//			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=210");
+//			rs=prpdstmt.executeQuery();
+//
+//		}
+//		catch(Exception ex) {
+//			JOptionPane.showMessageDialog(null,ex);
+//		}
+//		return rs;
+//	}
 	public ResultSet fetchQuestionfor205() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=205");

@@ -23,7 +23,7 @@ public class Manage_Student_Details extends JFrame  {
 	JTextField text_ID,text_studentname,text_email,text_address,text_phonenumber,text_password;
 	JComboBox batch_selection;
 	JLabel labelupdate,label_ID,label_studentname,label_email,label_password,label_address,label_phonenumber,label_batch;
-	JButton button_update,button_delete;
+	JButton button_update,button_delete,button_back;
 	Database_Connection dc= new Database_Connection();
 	public Manage_Student_Details() {
 		setTitle("Your Details");
@@ -108,6 +108,22 @@ public class Manage_Student_Details extends JFrame  {
 		 button_delete.setBackground(Color.red);
 		 add(button_update);
 		 add(button_delete);
+		 //for backbutton
+		 button_back=new JButton("Back to Dashboard");
+		 button_back.setBorderPainted( false );
+		 button_back.setContentAreaFilled(false);
+		 button_back.setForeground(Color.white);
+		 button_back.setBounds(350,300,250,20);
+		 add(button_back);
+		 button_back.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new Select_Questions().setVisible(true);
+				
+			}
+		});
 		 loadStudentProfile();
 		 button_update.addActionListener(new ActionListener() {
 			

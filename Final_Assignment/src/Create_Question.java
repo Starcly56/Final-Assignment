@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -33,7 +34,8 @@ public class Create_Question extends JFrame implements ActionListener{
 	JLabel create_question;
 	JEditorPane Info;
 	JLabel label_Subject_Code,label_Question,label_Answer1,label_Answer2,label_Answer3,label_Answer4;
-	JTextField text_Question,text_Answer1,text_Answer2,text_Answer3,text_Answer4;
+	JTextField text_Answer1,text_Answer2,text_Answer3,text_Answer4;
+	JTextArea text_Question;
 	JComboBox Subject_Code;
 	JButton Add_Question_Answer, Reset;
 	public Create_Question() {
@@ -82,93 +84,66 @@ public class Create_Question extends JFrame implements ActionListener{
 		//for Question
 		 label_Question= new JLabel("Question"); 
 		 label_Question.setBounds(15,60,150,20);
-		 text_Question=new JTextField();
-		 text_Question.setBounds(150, 60, 150, 20);
+		 text_Question=new JTextArea();
+		 text_Question.setBounds(150, 60, 200, 50);
 		 text_Question.setBorder(null);
 		 add(label_Question);
 		 add(text_Question);
 		 //for Answer1
-		 label_Answer1 = new JLabel("Correct Answer");
-		 label_Answer1.setBounds(15,85,150,20);
+		 label_Answer1 = new JLabel("First Answer");
+		 label_Answer1.setBounds(15,120,150,20);
 		 text_Answer1 = new JTextField();
-		 text_Answer1.setBounds(150,85,150,20);
+		 text_Answer1.setBounds(150,120,150,20);
 		 text_Answer1.setBorder(null);
 		 add(label_Answer1);
 		 add(text_Answer1);
 		 //for Answer2
 		 label_Answer2 = new JLabel("Second Answer");
-		 label_Answer2.setBounds(15,110,150,20);
+		 label_Answer2.setBounds(15,150,150,20);
 		 text_Answer2 = new JTextField();
-		 text_Answer2.setBounds(150,110,150,20);
+		 text_Answer2.setBounds(150,150,150,20);
 		 text_Answer2.setBorder(null);
 		 add(label_Answer2);
 		 add(text_Answer2);
 		 //for Answer3
 		 label_Answer3 = new JLabel("Third Answer");
-		 label_Answer3.setBounds(15,135,150,20);
+		 label_Answer3.setBounds(15,180,150,20);
 		 text_Answer3 = new JTextField();
-		 text_Answer3.setBounds(150,135,150,20);
+		 text_Answer3.setBounds(150,180,150,20);
 		 text_Answer3.setBorder(null);
 		 add(label_Answer3);
 		 add(text_Answer3);
 		 //for Answer4
 		 label_Answer4 = new JLabel("Fourth Answer");
-		 label_Answer4.setBounds(15,160,150,20);
+		 label_Answer4.setBounds(15,210,150,20);
 		 text_Answer4 = new JTextField();
-		 text_Answer4.setBounds(150,160,150,20);
+		 text_Answer4.setBounds(150,210,150,20);
 		 text_Answer4.setBorder(null);
 		 add(label_Answer4);
 		 add(text_Answer4);
 		 //for buttons
 		 Add_Question_Answer = new JButton("Add");
-		 Add_Question_Answer.setBounds(15,185,100,25);
+		 Add_Question_Answer.setBounds(15,270,100,30);
 		 Add_Question_Answer.setBackground(Color.decode("#D4AF37"));
 		 Reset = new JButton("Reset");
-		 Reset.setBounds(150,185,100,25);
+		 Reset.setBounds(150,270,100,30);
 		 Reset.setForeground(Color.white);
 		 Reset.setBackground(Color.black);
-
 		 add(Add_Question_Answer);
 		 add(Reset);
 		 Add_Question_Answer.addActionListener(this);
 		 Reset.addActionListener(this);
-		 Back.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
+		 Back.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					new Admin_Dashboard().setVisible(true);;
-
 				}
 			});
 	}
 
-//	public static void main(String[] args) {
-//		new Create_Question().setVisible(true);
-//	}
+	public static void main(String[] args) {
+		new Create_Question().setVisible(true);
+	}
 //	public void insert() {
 //		String subject = text_Subject_Code.getText();
 //		String question=text_Question.getText();
@@ -230,7 +205,6 @@ public class Create_Question extends JFrame implements ActionListener{
 			}
 		}
 		if(e.getSource().equals(Reset)) {
-			Subject_Code.setSelectedItem(null);
 			text_Question.setText(null);
 			text_Answer1.setText(null);
 			text_Answer2.setText(null);
