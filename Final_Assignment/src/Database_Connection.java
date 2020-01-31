@@ -90,6 +90,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	
 	public ResultSet studentLogin(String username,String token) {
 		try {
 			prpdstmt=connection.prepareStatement("select ID,Email,Token from student where Email=? and Token=?");
@@ -122,19 +123,19 @@ public class Database_Connection {
 		}
 		return output;
 	}
-	public ResultSet editQuestion() {
-		try {
-			prpdstmt=connection.prepareStatement("select Question_ID,Subject_ID,Question,Answer1,Answer2,Answer3,Answer4 "
-					+ "from question_answer where Question_ID=?");
-			prpdstmt.setInt(1, Login_page.USER_ID);
-			rs=prpdstmt.executeQuery();
-		
-		}
-		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null,ex);
-		}
-		return rs;
-	}
+//	public ResultSet editQuestion() {
+//		try {
+//			prpdstmt=connection.prepareStatement("select Question_ID,Subject_ID,Question,Answer1,Answer2,Answer3,Answer4 "
+//					+ "from question_answer where Question_ID=?");
+//			prpdstmt.setInt(1, Login_page.USER_ID);
+//			rs=prpdstmt.executeQuery();
+//		
+//		}
+//		catch(Exception ex) {
+//			JOptionPane.showMessageDialog(null,ex);
+//		}
+//		return rs;
+//	}
 	public ResultSet fetchQuestionfor201() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201");
@@ -146,17 +147,17 @@ public class Database_Connection {
 		}
 		return rs;
 	}
-//	public ResultSet fetchQuestionfor210() {
-//		try {
-//			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=210");
-//			rs=prpdstmt.executeQuery();
-//
-//		}
-//		catch(Exception ex) {
-//			JOptionPane.showMessageDialog(null,ex);
-//		}
-//		return rs;
-//	}
+	public ResultSet fetchQuestionfor210() {
+		try {
+			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=210");
+			rs=prpdstmt.executeQuery();
+
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null,ex);
+		}
+		return rs;
+	}
 	public ResultSet fetchQuestionfor205() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=205");
@@ -179,31 +180,34 @@ public class Database_Connection {
 		}
 		return rs;
 	}
-	
-//	public ResultSet getRandomQuestionAnswer() {
-//		ResultSet rss=null;
-//		try {
-//			PreparedStatement pss =connection.prepareStatement("SELECT `Question_ID` FROM `question_answer` WHERE Subject_ID=201");
-//			 rss = pss.executeQuery();
-//			if(rss.next()) {
-//
-//				JOptionPane.showMessageDialog(null,rss.getInt("Question_ID"));
-//			}
-//			return rss;
-////			PreparedStatement prpdstmt2=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201 and Question_ID=?");
-////			 rs=prpdstmt.executeQuery();
-////			ArrayList<Integer> qrr = new ArrayList<Integer>();
-////			qrr.add(rs.getInt("Question_ID"));
-////			Collections.shuffle(qrr);
-////			JOptionPane.showMessageDialog(null, qrr.get(0));
-////			rs=prpdstmt2.executeQuery();
-//		}
-//		catch(Exception ex) {
-//			JOptionPane.showMessageDialog(null,ex);
-//		}
-//		return rss;
-//	}
-	
+	public int insertResult(int Student_ID,String Student_Email,int Subject,int Marks_Obtained) {
+		int output=0;
+		try {
+			prpdstmt=connection.prepareStatement("insert into Result"
+		+"(`Student_ID`, `Student_Email`, `Subject`, `Marks_Obtained`) values (?,?,?,?)");
+			prpdstmt.setInt(1, Student_ID);
+			prpdstmt.setString(2, Student_Email);
+			prpdstmt.setInt(3, Subject);
+			prpdstmt.setInt(4, Marks_Obtained);
+            output=prpdstmt.executeUpdate();
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null,ex);
+		}
+		return output;
+	}
+	public ResultSet fetchResult() {
+		try {
+			prpdstmt=connection.prepareStatement("SELECT `Subject`, `Marks_Obtained` FROM `result` WHERE Student_ID=?");
+			prpdstmt.setInt(1, Login_page.USER_ID);
+			rs=prpdstmt.executeQuery();
+		
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null,ex);
+		}
+		return rs;
+	}
 	public String generateToken() {
 		String TokenSet;
 		String token;
@@ -217,41 +221,5 @@ public class Database_Connection {
 	}
 	public static void main(String []args) {
 		new Welcome_page().setVisible(true);
-//		ResultSet rs=prpdstmt.executeQuery("select * from student");  
-//		while(rs.next())  
-//		System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3)+"  "+rs.getString(4)+"  "+rs.getString(5)+"  "+rs.getString(6)+" "+rs.getString(7));   
 	}
 }
-
-
-
-//try {
-//	PreparedStatement ps=connection.prepareStatement("SELECT `Question_ID` FROM `question_answer` WHERE Subject_ID=201");
-//	PreparedStatement pss=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201 and Question_ID=?");
-//	ResultSet rss = ps.executeQuery();
-//	while(rss.next()) {
-//		
-//		qrr.add(rss.getInt("Question_ID"));
-//		Collections.shuffle(qrr);
-//		pss.setInt(1,rss.getInt("Question_ID"));
-//		rs=pss.executeQuery();
-//		System.out.println();
-////		JOptionPane.showMessageDialog(null, qrr.get(0));		
-//		
-//	}
-//	return rs;
-////	ArrayList<Integer> qrr = new ArrayList<Integer>();
-////	qrr.add(rs.getInt("Question_ID"));
-////	Collections.shuffle(qrr);
-////	JOptionPane.showMessageDialog(null, qrr.get(0));
-////	rs=prpdstmt2.executeQuery();
-//	
-//	
-//	
-////	prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201");
-////	rs=prpdstmt.executeQuery();
-//}
-//catch(Exception ex) {
-//	JOptionPane.showMessageDialog(null,ex);
-//}
-//return rs;

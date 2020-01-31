@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,102 +28,116 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
 import com.mysql.jdbc.Connection;
+import com.sun.net.httpserver.Authenticator.Result;
 
 public class STW205CDE_Questions extends JFrame implements ActionListener {
+	JMenuBar menubar;
+	JMenu Back;
     JButton button_next, button_result;
-    ButtonGroup bg;
-    JLabel label_Question;
+    JLabel label_Question,label_Timer;
     JRadioButton option[] = new JRadioButton[5]; //for options of the question
     int score = 0;
+    static int interval;
+    static Timer timer;
 //    long StartTime, EndTime, seconds, minutes, flag = 0;
-    ArrayList questionAnswer = new ArrayList();
+    // storing the Question_ID of the questions
+    public static ArrayList<Integer> questionAnswer = new ArrayList<Integer>();
+    //storing the Question and Answer
+    public static ArrayList<Integer> qna = new ArrayList<Integer>();
      int a=0;
-//    public static ArrayList<int>;
-     ResultSet rs1;
     int marks=0;
-    public static void main (String [] args)
-    {
-    	new STW205CDE_Questions().setVisible(true);
-    }
+	Database_Connection dc = new Database_Connection();
+	PreparedStatement prpdstmt;
+	ResultSet resultset,resultset2;
+//    public static void main (String [] args)
+//    {
+//    	new STW205CDE_Questions().setVisible(true);
+//    }
     public STW205CDE_Questions() {
+    	setTitle("STW205CDE Questions");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.decode("#f5f5f5"));
+        setLayout(null);
+		setBounds(400,150,600,400);
+//        repaint();
+        setResizable(false);
+        menubar = new JMenuBar();
+		Back = new JMenu("Back");
+		menubar.add(Back);
+		add(menubar);
+		setJMenuBar(menubar);
+		 //for timer
+    	label_Timer = new JLabel();
+    	label_Timer.setBounds(500, 0, 500, 20);  //labels question area
+    	add(label_Timer);
+        //for question
     	label_Question = new JLabel();
+    	label_Question.setBounds(20, 40, 500, 20);  //labels question area
         add(label_Question);
-        bg = new ButtonGroup();
+        //for options
+        ButtonGroup buttongroup = new ButtonGroup();
         for (int i = 0; i < 5; i++) {
         	option[i] = new JRadioButton();
             add(option[i]);
-            bg.add(option[i]);
+            buttongroup.add(option[i]);
         }
-        setTitle("STW205CDE Questions");
-        setDefaultCloseOperation(HIDE_ON_CLOSE);
+        for (int y = 0, number = 0; y <= 90; y += 30, number++) {
+        	option[number].setBounds(30, 70 + y, 250, 20);
+        	option[number].setBackground(null);
+        }
+       //for next button
         button_next = new JButton("Next");
-        button_result = new JButton("Result");
+        button_next.setBounds(250, 240, 100, 20);
+        add(button_next);
+        //for submit button
+        button_result = new JButton("Submit");
+        button_result.setBounds(250, 240, 100, 20);
+        add(button_result);
         button_next.addActionListener(this);
         button_result.addActionListener(this);
-        add(button_next);
-        add(button_result);
-        set1();
-        label_Question.setBounds(30, 40, 450, 20);  //labels question area
-        button_next.setBounds(100, 240, 100, 30);
-        button_result.setBounds(270, 240, 100, 30);
-        setLayout(null);
-        setVisible(true);
-		setBounds(400,150,600,400);
-        repaint();
-        setResizable(false);
+        fetching_question();
+        question();
+        Back.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+				new Select_Questions().setVisible(true);
+			}
+		});
+        int secs=90;
+        int delay = 1000;
+        int period = 1000;
+        timer = new Timer();
+        interval =secs;
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+            	
+            	label_Timer.setText(""+setInterval());
+            	if(setInterval()==0)
+            	{
+            		JOptionPane.showMessageDialog(null, "Opps Time Up");
+            		new Select_Questions().setVisible(true);
+            	}
+
+            }
+        }, delay, period);
     }
 
-   
-    void set1() {
+    void fetching_question() {
         System.out.println("This is Set");
-        repaint();
+//        repaint();
         option[4].setSelected(true);
         try {
-            PreparedStatement pst;
-            ResultSet rs;
-            Class.forName("com.mysql.jdbc.Driver");
-            java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbstudentmcq", "root", "");
-            String Subject_ID = "205";
-            String sql = "Select * from question_answer where Subject_ID='" + Subject_ID + "'";
-            pst = conn.prepareStatement(sql);
-            rs = pst.executeQuery(sql);
-            while (rs.next()) {
-            	questionAnswer.add(rs.getString("Question_ID"));
+        	resultset=dc.fetchQuestionfor205();
+            while (resultset.next()) {
+            	int x=resultset.getInt("Question_ID");
+            	questionAnswer.add(x);
             }
+            Collections.shuffle(questionAnswer);
             for (int i = 0; i <10;i++) {
-                try {
-                    String sql1 = "select * from question_answer where Question_ID='" + questionAnswer.get(i) + "'";
-                    pst = conn.prepareStatement(sql1);
-                    ResultSet rs1 = pst.executeQuery();
-                    pst = conn.prepareStatement(sql);
-                    rs1 = pst.executeQuery(sql);
-                    if (rs1.next()) {
-                        String s1 = rs1.getString("Question");
-                        String s2 = rs1.getString("Answer1");
-                        String s3 = rs1.getString("Answer2");
-                        String s4 = rs1.getString("Answer3");
-                        String s5 = rs1.getString("Answer4");
-                        label_Question.setText("Q" + s1);
-//                        Collections.shuffle(id);
-//                        for(int v=0; v<10; v++){
-//                            int a = id.get(i);
-//                            Questionid.add(a);
-//                        }
-//                        Collections.shuffle(Arrays.asList(jb));
-                        option[0].setText(s2);
-                        option[1].setText(s3);
-                        option[2].setText(s4);
-                        option[3].setText(s5);
-                        question(questionAnswer);
-                        label_Question.setBounds(30, 40, 450, 20);
-                        for (int z = 0, j = 0; z <= 90; z += 30, j++)
-                        	option[j].setBounds(50, 80 + z, 200, 20);
-                    }
-                }
-                catch (Exception e) {
-                }
+            	int y=questionAnswer.get(i);
+            	qna.add(y);
             }
         }
         catch (Exception e) {
@@ -131,19 +148,18 @@ public class STW205CDE_Questions extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==button_next)
         {
-
+        	score++;
             System.out.println(score);
-            question(questionAnswer);
-            score++;
-            set1();
+            question();
+            
+            fetching_question();
             if (score==9){
                 System.out.println("stop");
                 button_next.setEnabled(false);
-                button_result.setText("Result");
+                button_next.setVisible(false);
             }
         }
-        if (e.getActionCommand().equals("Result")) {
-//            count++;
+        if (e.getActionCommand().equals("Submit")) {
             if (option[0].isSelected()) {
                 if(marks==10){
                     marks=marks;
@@ -151,44 +167,70 @@ public class STW205CDE_Questions extends JFrame implements ActionListener {
                 else
                 marks++;
             }
-            JOptionPane.showMessageDialog(this, "correct ans=" + marks);
+            JOptionPane.showMessageDialog(this, "You got " + marks+" out of 10.");
+            int output=dc.insertResult(Login_page.USER_ID, Login_page.USER_EMAIL, 205,marks);
+            try {
+            	if(output>0) {
+					new Select_Questions().setVisible(true);
+				}
+				else { 
+					JOptionPane.showMessageDialog(null, "Not Stored");
+				}
+            }
+            catch(Exception ex) {
+            	
+            }
         }
     }
 
-    void question(ArrayList id) {
+    void question() {
             try {
-                id = id;
+                 resultset = dc.fetchQuestionfor205();
+                while (resultset.next()) {
+                	int x=resultset.getInt("Question_ID");
+                	questionAnswer.add(x);
+                }
+                Collections.shuffle(questionAnswer);
+                for (int i = 0; i <10;i++) {
+                	int y=questionAnswer.get(i);
+                	qna.add(y);
+                }
+                ArrayList<Integer> forloop=new ArrayList<Integer>();
+                for(int i=0;i<qna.size();i++)
+                {
+                	forloop.add(qna.get(i));
+                }
                 Class.forName("com.mysql.jdbc.Driver");
                 java.sql.Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbstudentmcq", "root", "");
-                PreparedStatement pst;
-                String sql = "select * from question_answer where Question_ID='" + id.get(score) + "'";
-                pst = con.prepareStatement(sql);
-                ResultSet rs1 = pst.executeQuery();
-                rs1.next();
-                pst = con.prepareStatement(sql);
-                rs1 = pst.executeQuery(sql);
-                if (rs1.next()) {
-                    String s1 = rs1.getString("Question");
-                    String s2 = rs1.getString("Answer1");
-                    String s3 = rs1.getString("Answer2");
-                    String s4 = rs1.getString("Answer3");
-                    String s5 = rs1.getString("Answer4");
-                    label_Question.setText("Q: " + s1);
-                    option[0].setText(s2);
-                    option[1].setText(s3);
-                    option[2].setText(s4);
-                    option[3].setText(s5);
-                    for (int z = 0, j = 0; z <= 90; z += 30, j++) {
-                    	option[j].setBounds(50, 80 + z, 200, 20);
-                    }
+                String sqlstatement = "select * from question_answer where Question_ID='" + forloop.get(score) + "'";
+                prpdstmt = con.prepareStatement(sqlstatement);
+                resultset = prpdstmt.executeQuery();
+                resultset.next();
+                prpdstmt = con.prepareStatement(sqlstatement);
+                resultset2 = prpdstmt.executeQuery(sqlstatement);
+                if (resultset2.next()) {
+                    String question = resultset2.getString("Question");
+                    String answer1 = resultset2.getString("Answer1");
+                    String answer2 = resultset2.getString("Answer2");
+                    String answer3 = resultset2.getString("Answer3");
+                    String answer4 = resultset2.getString("Answer4");
+                    label_Question.setText((score+1)+" "+question);
+                    option[0].setText(answer1);
+                    option[1].setText(answer2);
+                    option[2].setText(answer3);
+                    option[3].setText(answer4);
+                   
                     if (option[0].isSelected()) {
                         marks++;
                     }
                 }
             }
             catch (Exception e) {
-
             }
     }
-
+    private static final int setInterval() {
+        if (interval == 1)
+            timer.cancel();
+        return --interval;
+    }
 }

@@ -39,30 +39,31 @@ public class Login_page extends JFrame implements ActionListener {
 		//for username
 		 label_username= new JLabel("Username:"); 
 		 label_username.setFont(new Font("Arial",Font.BOLD,15));
-		 label_username.setBounds(150,50,150,20);
+		 label_username.setBounds(170,50,150,20);
 		 label_username.setForeground(Color.black);
 		 text_username=new JTextField();
-		 text_username.setBackground(Color.black);
-		 text_username.setForeground(Color.white);
+//		 text_username.setBackground(Color.black);
+//		 text_username.setForeground(Color.white);
 		 text_username.setFont(new Font("Arial",Font.BOLD,15));
 		 Border border = BorderFactory.createLineBorder(Color.white, 1);
 	        // set the border of this component
 		 text_username.setBorder(border);
-		 text_username.setBounds(250, 50, 150, 20);
+		 text_username.setBounds(170, 80, 200, 20);
 		 add(label_username);
 		 add(text_username);
 		 //for password
 		 label_password = new JLabel("Token:");
 		 label_password.setFont(new Font("Arial",Font.BOLD,15));
-		 label_password.setBounds(150,100,150,20);
+		 label_password.setBounds(170,110,150,20);
 		 label_password.setForeground(Color.black);
 		 text_password = new JPasswordField();
-		 text_password.setBackground(Color.black);
-		 text_password.setForeground(Color.white);
+//		 text_password.setBackground(Color.black);
+//		 text_password.setForeground(Color.white);
 		 text_password.setFont(new Font("Arial",Font.BOLD,15));
+//		 Border border = BorderFactory.createLineBorder(Color.white, 1);
 
-		 text_username.setBorder(border);
-		 text_password.setBounds(250,100,150,20);
+		 text_password.setBorder(border);
+		 text_password.setBounds(170,140,200,20);
 		 add(label_password);
 		 add(text_password);
 		 //for label create account
@@ -71,14 +72,14 @@ public class Login_page extends JFrame implements ActionListener {
 		 button_createaccount.setContentAreaFilled(false);
 		 button_createaccount.setForeground(Color.black);
 
-		 button_createaccount.setBounds(150,140,250,20);
+		 button_createaccount.setBounds(150,170,250,20);
 		 add(button_createaccount);
 		 //for button
 		 button_login = new JButton("Login");
-		 button_login.setBounds(150,170,80,25);
+		 button_login.setBounds(170,200,80,25);
 		 button_login.setBackground(Color.cyan);
 		 button_cancel = new JButton("Cancel");
-		 button_cancel.setBounds(250,170,80,25);
+		 button_cancel.setBounds(270,200,80,25);
 		 button_cancel.setBackground(Color.red);
 		 add(button_login);
 		 add(button_cancel);

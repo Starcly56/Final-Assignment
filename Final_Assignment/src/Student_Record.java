@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.sql.*;
@@ -22,7 +24,7 @@ public class Student_Record extends JFrame{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.decode("#1e90ff"));
-	  Vector columnNames = new Vector();
+		Vector columnNames = new Vector();
         Vector data = new Vector();
 	        
 	        try {
@@ -57,35 +59,11 @@ public class Student_Record extends JFrame{
 	            column = table.getColumnModel().getColumn(i);
 	            column.setMaxWidth(250);
 	        }
-	        JScrollPane scrollPane = new JScrollPane(table);        
-	        panel.add(scrollPane);               
+	        JScrollPane scrollpane = new JScrollPane(table);
+	        scrollpane.setPreferredSize(new Dimension(480, 300));
+	        panel.add(scrollpane);               
 	        add(panel);        
-	        Back.addMouseListener(new MouseListener() {
-
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
+	        Back.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					new Admin_Dashboard().setVisible(true);
