@@ -15,7 +15,10 @@ public class Login_page extends JFrame implements ActionListener {
 	JButton button_login,button_cancel,button_createaccount;
 	public static int USER_ID=0;
 	public static  String USER_EMAIL="";
-	
+	public static  String USER_TOKEN="";
+
+	Database_Connection dc= new Database_Connection();
+	ResultSet output;
 	public  Login_page() { 
 		setTitle("Student Login");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -52,7 +55,7 @@ public class Login_page extends JFrame implements ActionListener {
 		 add(label_username);
 		 add(text_username);
 		 //for password
-		 label_password = new JLabel("Token:");
+		 label_password = new JLabel("Password:");
 		 label_password.setFont(new Font("Arial",Font.BOLD,15));
 		 label_password.setBounds(170,110,150,20);
 		 label_password.setForeground(Color.black);
@@ -90,7 +93,7 @@ public class Login_page extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String username=text_username.getText();
-		String token=text_password.getText().toString();
+		String password=text_password.getText().toString();
 		if(e.getSource().equals(button_cancel))
 		{
 			new Welcome_page().setVisible(true);
@@ -100,18 +103,18 @@ public class Login_page extends JFrame implements ActionListener {
 			new Signup_Page().setVisible(true);
 		}
 		if(e.getSource().equals(button_login)) {
-			if(username.isEmpty()&&token.isEmpty()) {
+			if(username.isEmpty()&&password.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Fields are empty");
 			}
 			else if(username.isEmpty()){
 				JOptionPane.showMessageDialog(null, "Please input valid Email");
 				}
-			else if(token.isEmpty()) {
+			else if(password.isEmpty()) {
 					JOptionPane.showMessageDialog(null, "Please input valid Token.");
 				}
 				
 			
-			else if(username.equals("admin@gmail.com")&&token.equals("admin123"))
+			else if(username.equals("admin@gmail.com")&&password.equals("admin123"))
 			{
 				JOptionPane.showMessageDialog(null, "Logged in as admin");
 				new Admin_Dashboard().setVisible(true);
@@ -119,11 +122,11 @@ public class Login_page extends JFrame implements ActionListener {
 			else
 			{
 				try {
-					Database_Connection dc= new Database_Connection();
-					ResultSet output=dc.studentLogin(username, token);
+					output=dc.studentLogin(username, password);
 					if(output.next()) {
 						USER_EMAIL = output.getString("Email");
 						USER_ID = output.getInt("ID");
+						USER_TOKEN=output.getString("Token");
 						
 						JOptionPane.showMessageDialog(null, "Logged in as "+USER_EMAIL);
 						new Select_Questions().setVisible(true);

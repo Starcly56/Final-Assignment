@@ -91,14 +91,23 @@ public class Database_Connection {
 		return rs;
 	}
 	
-	public ResultSet studentLogin(String username,String token) {
+	public ResultSet studentLogin(String username,String password) {
 		try {
-			prpdstmt=connection.prepareStatement("select ID,Email,Token from student where Email=? and Token=?");
+			prpdstmt=connection.prepareStatement("select ID,Email,Password,Token from student where Email=? and Password=?");
 			prpdstmt.setString(1, username);
-			prpdstmt.setString(2, token);
+			prpdstmt.setString(2, password);
 			rs=prpdstmt.executeQuery();
-			
-			
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null,ex);
+		}
+		return rs;
+	}
+	public ResultSet token() {
+		try {
+			prpdstmt=connection.prepareStatement("select ID,Token from student where Token=?");
+			prpdstmt.setInt(1, Login_page.USER_ID);
+			rs=prpdstmt.executeQuery();
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(null,ex);
@@ -123,24 +132,33 @@ public class Database_Connection {
 		}
 		return output;
 	}
-//	public ResultSet editQuestion() {
-//		try {
-//			prpdstmt=connection.prepareStatement("select Question_ID,Subject_ID,Question,Answer1,Answer2,Answer3,Answer4 "
-//					+ "from question_answer where Question_ID=?");
-//			prpdstmt.setInt(1, Login_page.USER_ID);
-//			rs=prpdstmt.executeQuery();
-//		
-//		}
-//		catch(Exception ex) {
-//			JOptionPane.showMessageDialog(null,ex);
-//		}
-//		return rs;
-//	}
+	public ResultSet fetchQuestion() {
+		try {
+			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` ");
+			rs=prpdstmt.executeQuery();
+		
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null,ex);
+		}
+		return rs;
+	}
+	public boolean deleteQuestion(int ID) {
+		try {
+			prpdstmt=connection.prepareStatement("delete from question_answer where Question_ID=?");
+			prpdstmt.setInt(1, ID);
+			prpdstmt.executeUpdate();
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null, ex);
+			return false;
+		}
+		return true;
+	}
 	public ResultSet fetchQuestionfor201() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201");
 			rs=prpdstmt.executeQuery();
-			
 		}
 		catch(Exception ex) {
 			JOptionPane.showMessageDialog(null,ex);

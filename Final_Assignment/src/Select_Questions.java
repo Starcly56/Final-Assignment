@@ -15,7 +15,8 @@ public class Select_Questions extends JFrame implements ActionListener {
 	JMenu Course,Manage_Account,Logout;
 	JMenuItem STW210CT,STW205CDE,STW290COM,STW201CS;
 	Database_Connection dc= new Database_Connection();
-
+	public static String User_token="";
+	String token;
 //	public static void main(String [] args) {
 //		new Select_Questions().setVisible(true);
 //	}
@@ -99,20 +100,65 @@ public class Select_Questions extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(STW210CT))
-		{
-			new STW210CT_Questions().setVisible(true);
+		{	
+			try {
+				ResultSet output=dc.token();
+				String token=JOptionPane.showInputDialog(null, "Enter this '"+Login_page.USER_TOKEN+"' token");
+				if(token.equals(Login_page.USER_TOKEN)) {
+					JOptionPane.showMessageDialog(null, "Attempt Your Test");
+					new STW210CT_Questions().setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Please input the token correctly");
+				}
+			} catch (Exception e1) {
+			}
+			
 		}
 		if(e.getSource().equals(STW205CDE))
 		{
-			new STW205CDE_Questions().setVisible(true);
+			try {
+				ResultSet output=dc.token();
+				String token=JOptionPane.showInputDialog(null, "Enter this '"+Login_page.USER_TOKEN+"' token");
+				if(token.equals(Login_page.USER_TOKEN)) {
+					JOptionPane.showMessageDialog(null, "Attempt Your Test");
+					new STW205CDE_Questions().setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Please input the token correctly");
+				}
+			} catch (Exception e1) {
+			}
 		}
 		if(e.getSource().equals(STW290COM))
 		{
-			new STW290COM_Questions().setVisible(true);
+			try {
+				ResultSet output=dc.token();
+				String token=JOptionPane.showInputDialog(null, "Enter this '"+Login_page.USER_TOKEN+"' token");
+				if(token.equals(Login_page.USER_TOKEN)) {
+					JOptionPane.showMessageDialog(null, "Attempt Your Test");
+					new STW290COM_Questions().setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Please input the token correctly");
+				}
+			} catch (Exception e1) {
+			}
 		}
 		if(e.getSource().equals(STW201CS))
 		{
-			new STW201CS_Questions().setVisible(true);
+			try {
+				ResultSet output=dc.token();
+				String token=JOptionPane.showInputDialog(null, "Enter this '"+Login_page.USER_TOKEN+"' token");
+				if(token.equals(Login_page.USER_TOKEN)) {
+					JOptionPane.showMessageDialog(null, "Attempt Your Test");
+					new STW201CS_Questions().setVisible(true);
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "Please input the token correctly");
+				}
+			} catch (Exception e1) {
+			}
 		}
 	}
 }

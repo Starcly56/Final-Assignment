@@ -140,43 +140,8 @@ public class Signup_Page extends JFrame implements ActionListener{
 		 button_signup.addActionListener(this);
 		 button_back_login.addActionListener(this);
 	}
-	public static void main(String[] args) {
-		new Signup_Page().setVisible(true);
-	}
-//	public void insert() {
-//		String name=text_studentname.getText();
-//		String email=text_email.getText();
-//		String address=text_address.getText();
-//		String batch=batch_selection.getSelectedItem().toString();
-//		String gender="";
-//		if(male.isSelected()) {
-//			gender=male.getText().toString();
-//		}
-//		else if(female.isSelected()){
-//			gender=female.getText().toString();
-//		}
-//		String phonenumber=text_phonenumber.getText();
-//		try{  
-//			Class.forName("com.mysql.jdbc.Driver"); 
-//			String SQL_INSERT = "insert into student (student_name,batch,Gender,Email,Address,Mobile) values (?,?,?,?,?,?)";
-//			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/dbstudentmcq","root","");  
-//			//here sonoo is database name, root is username and password  
-//			PreparedStatement prep = con.prepareStatement(SQL_INSERT);
-//			prep.setString(1, name);
-//			prep.setString(2, batch);
-//			prep.setString(3, gender);
-//			prep.setString(4, email);
-//			prep.setString(5, address);
-//			prep.setString(6, phonenumber);
-//			int rs = prep.executeUpdate();
-//			if(rs==1) {
-//				JOptionPane.showMessageDialog(null, "Account Created");
-//			}else {
-//				JOptionPane.showMessageDialog(null, "Failed");
-//			}
-//		}catch(Exception e) {
-//			JOptionPane.showMessageDialog(null,"Fill all the data");
-//		}	 
+//	public static void main(String[] args) {
+//		new Signup_Page().setVisible(true);
 //	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -200,12 +165,12 @@ public class Signup_Page extends JFrame implements ActionListener{
 			}
 			else {
 				try {
-					
 					int output=dc.insertStudentDetails(name, batch,gender, email,password, address,phonenumber,token);
 					if(output>0) {
-						JOptionPane.showMessageDialog(null, "You are logged in as"+email);
+						JOptionPane.showMessageDialog(null, "Your account is created with "+email+" as username.");
 						label_token.setVisible(true);
 						text_token.setVisible(true);
+						new Login_page().setVisible(true);
 					}
 					else { 
 						JOptionPane.showMessageDialog(null, "Student details not registered");
@@ -214,7 +179,6 @@ public class Signup_Page extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(null, " Sys Error");
 				}
 			}
-			
 		}
 		if(e.getSource().equals(button_back_login)) {
 			new Login_page().setVisible(true);

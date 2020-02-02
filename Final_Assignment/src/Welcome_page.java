@@ -3,7 +3,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 /*
@@ -48,9 +47,7 @@ public class Welcome_page extends JFrame implements ActionListener {
 		 setVisible(true);
 		 button_go.addActionListener(this);
 		 setLayout(new BorderLayout());
-		
-			//setLayout(new FlowLayout());
-	    }
+	}
 
 	public static void main(String[] args) {
 		new Welcome_page();

@@ -105,7 +105,7 @@ public class STW205CDE_Questions extends JFrame implements ActionListener {
 				new Select_Questions().setVisible(true);
 			}
 		});
-        int secs=90;
+        int secs=120;
         int delay = 1000;
         int period = 1000;
         timer = new Timer();
@@ -114,12 +114,15 @@ public class STW205CDE_Questions extends JFrame implements ActionListener {
             public void run() {
             	
             	label_Timer.setText(""+setInterval());
-            	if(setInterval()==0)
+            	if(score<9)
             	{
-            		JOptionPane.showMessageDialog(null, "Opps Time Up");
-            		new Select_Questions().setVisible(true);
+            		if(setInterval()==0)
+                	{
+                		JOptionPane.showMessageDialog(null, "Opps Time Up");
+                		new Select_Questions().setVisible(true);
+                		System.out.println(score);
+                	}
             	}
-
             }
         }, delay, period);
     }
