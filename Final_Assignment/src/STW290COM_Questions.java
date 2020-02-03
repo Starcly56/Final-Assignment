@@ -32,47 +32,55 @@ import com.mysql.jdbc.Connection;
 import com.sun.net.httpserver.Authenticator.Result;
 
 public class STW290COM_Questions extends JFrame implements ActionListener {
+	
+	//adding required fields
 	JMenuBar menubar;
 	JMenu Back;
     JButton button_next, button_result;
     JLabel label_Question,label_Timer;
     JRadioButton option[] = new JRadioButton[5]; //for options of the question
     int score = 0;
+    
+    //for timer
     static int interval;
     static Timer timer;
+    
+    // storing the Question_ID of the questions
     public static ArrayList<Integer> questionAnswer = new ArrayList<Integer>();
     //storing the Question and Answer
     public static ArrayList<Integer> qna = new ArrayList<Integer>();
-     int a=0;
     int marks=0;
+    
+    //instance of the database
 	Database_Connection dc = new Database_Connection();
 	PreparedStatement prpdstmt;
 	ResultSet resultset,resultset2;
-//    public static void main (String [] args)
-//    {
-//    	new STW290COM_Questions().setVisible(true);
-//    }
+	
     public STW290COM_Questions() {
     	setTitle("STW290COM Questions");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         getContentPane().setBackground(Color.decode("#f5f5f5"));
         setLayout(null);
 		setBounds(400,150,600,400);
-//        repaint();
-        setResizable(false);
+		setResizable(false);
+		
+		//for menubar
         menubar = new JMenuBar();
 		Back = new JMenu("Back");
 		menubar.add(Back);
 		add(menubar);
 		setJMenuBar(menubar);
+		
 		 //for timer
     	label_Timer = new JLabel();
-    	label_Timer.setBounds(500, 0, 500, 20);  //labels question area
+    	label_Timer.setBounds(500, 0, 500, 20);  
         add(label_Timer);
+        
         //for question
     	label_Question = new JLabel();
-    	label_Question.setBounds(20, 40, 500, 20);  //labels question area
+    	label_Question.setBounds(20, 40, 500, 20);  
         add(label_Question);
+        
         //for options
         ButtonGroup buttongroup = new ButtonGroup();
         for (int i = 0; i < 5; i++) {
@@ -84,25 +92,35 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
         	option[number].setBounds(30, 70 + y, 400, 20);
         	option[number].setBackground(null);
         }
+        
        //for next button
         button_next = new JButton("Next");
         button_next.setBounds(250, 240, 100, 20);
         add(button_next);
+        
         //for submit button
         button_result = new JButton("Submit");
         button_result.setBounds(250, 240, 100, 20);
         add(button_result);
+        
+        //adding action listener
         button_next.addActionListener(this);
         button_result.addActionListener(this);
+        
+        //calling methods for calculation
         fetching_question();
         question();
+        
         Back.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				timer.cancel();
 				dispose();
-				new Select_Questions().setVisible(true);
+				new Student_Dashboard().setVisible(true);
 			}
 		});
+        
+        //for timer
         int secs=120;
         int delay = 1000;
         int period = 1000;
@@ -117,16 +135,17 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
             		if(setInterval()==0)
                 	{
                 		JOptionPane.showMessageDialog(null, "Opps Time Up");
-                		new Select_Questions().setVisible(true);
+                		dispose();
+                		new Student_Dashboard().setVisible(true);
                 		System.out.println(score);
                 	}
             	}
             }
         }, delay, period);
     }
-    void fetching_question() {
-        System.out.println("This is Set");
-//        repaint();
+    
+    //fetching questions with unselected answer
+    public void fetching_question() {
         option[4].setSelected(true);
         try {
         	resultset=dc.fetchQuestionfor290();
@@ -134,6 +153,7 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
             	int x=resultset.getInt("Question_ID");
             	questionAnswer.add(x);
             }
+            //shuffling the questions
             Collections.shuffle(questionAnswer);
             for (int i = 0; i <10;i++) {
             	int y=questionAnswer.get(i);
@@ -141,11 +161,12 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
             }
         }
         catch (Exception e) {
-            System.out.println("setnext\n" + e);
+        	 JOptionPane.showMessageDialog(null, e);
         }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+    	//getting next question
         if(e.getSource()==button_next)
         {
         	score++;
@@ -153,12 +174,14 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
             question();
             
             fetching_question();
+            //counting questions
             if (score==9){
                 System.out.println("stop");
                 button_next.setEnabled(false);
                 button_next.setVisible(false);
             }
         }
+        //finalizing the result
         if (e.getActionCommand().equals("Submit")) {
             if (option[0].isSelected()) {
                 if(marks==10){
@@ -171,7 +194,8 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
             int output=dc.insertResult(Login_page.USER_ID, Login_page.USER_EMAIL, 290,marks);
             try {
             	if(output>0) {
-					new Select_Questions().setVisible(true);
+            		dispose();
+					new Student_Dashboard().setVisible(true);
 				}
 				else { 
 					JOptionPane.showMessageDialog(null, "Not Stored");
@@ -183,18 +207,21 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
         }
     }
 
-    void question() {
+    public void question() {
             try {
+            	//fetching questions for 290
                  resultset = dc.fetchQuestionfor290();
                 while (resultset.next()) {
                 	int x=resultset.getInt("Question_ID");
                 	questionAnswer.add(x);
                 }
+                //shuffling the questions
                 Collections.shuffle(questionAnswer);
                 for (int i = 0; i <10;i++) {
                 	int y=questionAnswer.get(i);
                 	qna.add(y);
                 }
+                //storing the shuffled questions in the array list
                 ArrayList<Integer> forloop=new ArrayList<Integer>();
                 for(int i=0;i<qna.size();i++)
                 {
@@ -228,6 +255,7 @@ public class STW290COM_Questions extends JFrame implements ActionListener {
             catch (Exception e) {
             }
     }
+    //for the interval of the timer and canceling it
     private static final int setInterval() {
         if (interval == 1)
             timer.cancel();

@@ -29,6 +29,7 @@ import javax.swing.JTextPane;
 import javax.swing.border.Border;
 
 public class Create_Question extends JFrame implements ActionListener{
+	//adding required fields
 	JMenuBar menubar;
 	JMenu Back;
 	JLabel create_question;
@@ -38,29 +39,35 @@ public class Create_Question extends JFrame implements ActionListener{
 	JTextArea text_Question;
 	JComboBox Subject_Code;
 	JButton Add_Question_Answer, Reset;
+	//instance of the database
+	Database_Connection dc= new Database_Connection();
+
+	//constructor
 	public Create_Question() {
 		setTitle(" Adding Question");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-//		getContentPane().setBackground(Color.GRAY);
 		try {
 			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("images//Welcome_page.jpg")))));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		setBounds(400,150,600,400);
 		setLayout(null);
+		
+		//for menubar
 		menubar = new JMenuBar();
 		Back = new JMenu("Back");
 		menubar.add(Back);
 		add(menubar);
 		setJMenuBar(menubar);
+		
 		//for headline
 		create_question=new JLabel("Creating questions");
 		create_question.setFont(new Font("Arial",Font.BOLD,20));
 		create_question.setBounds(200, 0, 200, 25);
 		create_question.setForeground(Color.black);
 		add(create_question);
+		
 		//for info
 		Info=new JEditorPane();
 		Info.setContentType("text");
@@ -69,6 +76,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		Info.setEditable(false);
 		Info.setBackground(Color.decode("#ffa500"));
 		add(Info);
+		
 		//for Subject Code
 		label_Subject_Code= new JLabel("Subject Code"); 
 		label_Subject_Code.setBounds(15,35,150,20);
@@ -81,6 +89,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		Subject_Code.setBorder(null);
 		 add(label_Subject_Code);
 		 add(Subject_Code);
+		 
 		//for Question
 		 label_Question= new JLabel("Question"); 
 		 label_Question.setBounds(15,60,150,20);
@@ -89,6 +98,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		 text_Question.setBorder(null);
 		 add(label_Question);
 		 add(text_Question);
+		 
 		 //for Answer1
 		 label_Answer1 = new JLabel("First Answer");
 		 label_Answer1.setBounds(15,120,150,20);
@@ -97,6 +107,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		 text_Answer1.setBorder(null);
 		 add(label_Answer1);
 		 add(text_Answer1);
+		 
 		 //for Answer2
 		 label_Answer2 = new JLabel("Second Answer");
 		 label_Answer2.setBounds(15,150,150,20);
@@ -105,6 +116,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		 text_Answer2.setBorder(null);
 		 add(label_Answer2);
 		 add(text_Answer2);
+		 
 		 //for Answer3
 		 label_Answer3 = new JLabel("Third Answer");
 		 label_Answer3.setBounds(15,180,150,20);
@@ -113,6 +125,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		 text_Answer3.setBorder(null);
 		 add(label_Answer3);
 		 add(text_Answer3);
+		 
 		 //for Answer4
 		 label_Answer4 = new JLabel("Fourth Answer");
 		 label_Answer4.setBounds(15,210,150,20);
@@ -121,6 +134,7 @@ public class Create_Question extends JFrame implements ActionListener{
 		 text_Answer4.setBorder(null);
 		 add(label_Answer4);
 		 add(text_Answer4);
+		 
 		 //for buttons
 		 Add_Question_Answer = new JButton("Add");
 		 Add_Question_Answer.setBounds(15,270,100,30);
@@ -131,57 +145,29 @@ public class Create_Question extends JFrame implements ActionListener{
 		 Reset.setBackground(Color.black);
 		 add(Add_Question_Answer);
 		 add(Reset);
+		 
+		 //adding action listener
 		 Add_Question_Answer.addActionListener(this);
 		 Reset.addActionListener(this);
 		 Back.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
+					dispose();
 					new Admin_Dashboard().setVisible(true);;
 				}
 			});
 	}
 
-	public static void main(String[] args) {
-		new Create_Question().setVisible(true);
-	}
-//	public void insert() {
-//		String subject = text_Subject_Code.getText();
-//		String question=text_Question.getText();
-//		String answer1=text_Answer1.getText();
-//		String answer2=text_Answer2.getText();
-//		String answer3=text_Answer3.getText();
-//		String answer4=text_Answer4.getText();
-//		try{  
-//			Class.forName("com.mysql.jdbc.Driver"); 
-//			String SQL_INSERT = "insert into question_answer (Subject_ID,Question,Answer1,Answer2,Answer3,Answer4) values (?,?,?,?,?,?)";
-//			Connection con=DriverManager.getConnection(  
-//			"jdbc:mysql://localhost:3306/dbstudentmcq","root","");  
-//			//here dbstudentmcq is database name, root is username and password  
-//			PreparedStatement prep = con.prepareStatement(SQL_INSERT);
-//			prep.setString(1, subject);
-//			prep.setString(2, question);
-//			prep.setString(3, answer1);
-//			prep.setString(4, answer2);
-//			prep.setString(5, answer3);
-//			prep.setString(6, answer4);
-//			int rs = prep.executeUpdate();
-//			if(rs==1) {
-//				JOptionPane.showMessageDialog(null, "Question Created");
-//			}else {
-//				JOptionPane.showMessageDialog(null, "Failed");
-//			}
-//		}catch(Exception e) {
-//			JOptionPane.showMessageDialog(null,"Please fill all the fields");
-//		}	 
-//	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//storing the data in variables
 		String subject_id = Subject_Code.getSelectedItem().toString();
 		String question = text_Question.getText();
 		String answer1 = text_Answer1.getText();
 		String answer2 = text_Answer2.getText();
 		String answer3 = text_Answer3.getText();
 		String answer4 = text_Answer4.getText();
+		//validation for fields
 		if(e.getSource().equals(Add_Question_Answer)) {
 			if(subject_id.isEmpty()||question.isEmpty()||answer1.isEmpty()||answer2.isEmpty()||answer3.isEmpty()||answer4.isEmpty()) {
 				JOptionPane.showMessageDialog(null, "Please provide questions and answers.");
@@ -189,10 +175,12 @@ public class Create_Question extends JFrame implements ActionListener{
 			else {
 				try 
 				{
-					Database_Connection dc= new Database_Connection();
+					//inserting questions in database
 					int output=dc.insertQuestions(subject_id, question, answer1, answer2, answer3, answer4);
 					if(output>0) {
 						JOptionPane.showMessageDialog(null, "Question is added Successfully");
+						dispose();
+						//redirecting to admin dashboard
 						new Admin_Dashboard().setVisible(true);
 					}
 					else {
@@ -205,6 +193,7 @@ public class Create_Question extends JFrame implements ActionListener{
 			}
 		}
 		if(e.getSource().equals(Reset)) {
+			//emptying the fields
 			text_Question.setText(null);
 			text_Answer1.setText(null);
 			text_Answer2.setText(null);

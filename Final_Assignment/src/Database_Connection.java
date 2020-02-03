@@ -11,7 +11,7 @@ public class Database_Connection {
 	public Connection connection;
 	PreparedStatement prpdstmt;
 	ResultSet rs;
-	ArrayList<Integer> qrr = new ArrayList<Integer>();
+	//Initialization of the database connection
 	public Database_Connection() {
 		try
 			{  
@@ -26,6 +26,7 @@ public class Database_Connection {
 				System.out.println(e);
 			}  
 		}
+	//Sign Up for the Student
 	public int insertStudentDetails(String name,String email,String password,String batch,String phoneNumber,String address,String gender,String token) {
 		int output=0;
 		try {
@@ -42,10 +43,11 @@ public class Database_Connection {
 			output=prpdstmt.executeUpdate();
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null, ex);
+			JOptionPane.showMessageDialog(null, "Email is already taken.");
 		}
 		return output;
 	}
+	//Updating the details of the student
 	public boolean updateStudentDetails(int ID,String name,String email,String password,String batch,String phoneNumber,String address) {
 		try {
 			prpdstmt=connection.prepareStatement("update student set student_name=?, "
@@ -65,6 +67,7 @@ public class Database_Connection {
 		}
 		return true;
 	}
+	//Deleting a student
 	public boolean deleteStudent(int ID) {
 		try {
 			prpdstmt=connection.prepareStatement("delete from student where ID=?");
@@ -77,6 +80,7 @@ public class Database_Connection {
 		}
 		return true;
 	}
+	//Fetching individual Student data for updating 
 	public ResultSet studentTable() {
 		try {
 			prpdstmt=connection.prepareStatement("select ID,student_name,batch,Gender,Email,Password,Address,Mobile "
@@ -90,7 +94,19 @@ public class Database_Connection {
 		}
 		return rs;
 	}
-	
+	//Fetching Student data for in admin dashboard 
+	public ResultSet registeredStudent() {
+		try {
+			prpdstmt=connection.prepareStatement("select student_name,batch,Email,Address,Mobile "
+					+ "from student");
+			rs=prpdstmt.executeQuery();
+		}
+		catch(Exception ex) {
+			JOptionPane.showMessageDialog(null,ex);
+		}
+		return rs;
+	}
+	//Login of the Student
 	public ResultSet studentLogin(String username,String password) {
 		try {
 			prpdstmt=connection.prepareStatement("select ID,Email,Password,Token from student where Email=? and Password=?");
@@ -103,6 +119,19 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Generation of the token
+	public String generateToken() {
+		String TokenSet;
+		String token;
+		TokenSet="asdfghjklqwertyuiopzxcvbnm1234567890";
+		token="";
+		
+		for (int counter=0;counter<=6;counter++) {
+			token += TokenSet.charAt(new Random().nextInt(TokenSet.length()));
+		}
+		return token;
+	}
+	//Generation of the token for student to attend the exam
 	public ResultSet token() {
 		try {
 			prpdstmt=connection.prepareStatement("select ID,Token from student where Token=?");
@@ -114,6 +143,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Creating questions
 	public int insertQuestions(String subject_id,String question,String answer1,String answer2,String answer3,String answer4) {
 		int output=0;
 		try {
@@ -132,6 +162,7 @@ public class Database_Connection {
 		}
 		return output;
 	}
+	//Fetching all the questions
 	public ResultSet fetchQuestion() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` ");
@@ -143,6 +174,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Deleting the question
 	public boolean deleteQuestion(int ID) {
 		try {
 			prpdstmt=connection.prepareStatement("delete from question_answer where Question_ID=?");
@@ -155,6 +187,7 @@ public class Database_Connection {
 		}
 		return true;
 	}
+	//Fetching questions for STW201CS
 	public ResultSet fetchQuestionfor201() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=201");
@@ -165,6 +198,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Fetching questions for STW210CT
 	public ResultSet fetchQuestionfor210() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=210");
@@ -176,6 +210,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Fetching questions for STW205CDE
 	public ResultSet fetchQuestionfor205() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=205");
@@ -187,6 +222,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Fetching questions for STW290COM
 	public ResultSet fetchQuestionfor290() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Question_ID`, `Subject_ID`, `Question`, `Answer1`, `Answer2`, `Answer3`, `Answer4` FROM `question_answer` WHERE Subject_ID=290");
@@ -198,6 +234,7 @@ public class Database_Connection {
 		}
 		return rs;
 	}
+	//Saving the result of the examination of the particular student
 	public int insertResult(int Student_ID,String Student_Email,int Subject,int Marks_Obtained) {
 		int output=0;
 		try {
@@ -214,6 +251,7 @@ public class Database_Connection {
 		}
 		return output;
 	}
+	//Viewing the result in the Student Dashboard
 	public ResultSet fetchResult() {
 		try {
 			prpdstmt=connection.prepareStatement("SELECT `Subject`, `Marks_Obtained` FROM `result` WHERE Student_ID=?");
@@ -226,17 +264,19 @@ public class Database_Connection {
 		}
 		return rs;
 	}
-	public String generateToken() {
-		String TokenSet;
-		String token;
-		TokenSet="asdfghjklqwertyuiopzxcvbnm1234567890";
-		token="";
-		
-		for (int counter=0;counter<=6;counter++) {
-			token += TokenSet.charAt(new Random().nextInt(TokenSet.length()));
+	//Viewing the result in the Student Dashboard
+		public ResultSet viewResult() {
+			try {
+				prpdstmt=connection.prepareStatement("SELECT `Student_ID`, `Student_Email`, `Subject`, `Marks_Obtained` FROM `result`");
+				rs=prpdstmt.executeQuery();
+			
+			}
+			catch(Exception ex) {
+				JOptionPane.showMessageDialog(null,ex);
+			}
+			return rs;
 		}
-		return token;
-	}
+	//calling Welcome page 
 	public static void main(String []args) {
 		new Welcome_page().setVisible(true);
 	}
