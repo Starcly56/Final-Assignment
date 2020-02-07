@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -150,6 +152,17 @@ public class Signup_Page extends JFrame implements ActionListener{
 		 add(text_token);
 		 button_signup.addActionListener(this);
 		 button_back_login.addActionListener(this);
+		 //allowing only digits in the phone number field 
+		 text_phonenumber.addKeyListener(new KeyAdapter() {
+		        public void keyTyped(KeyEvent e) {
+		        char c = e.getKeyChar();
+		        if (!Character.isDigit(c))
+		        		{
+		             e.consume();
+		              JOptionPane.showMessageDialog(null, "Only numbers are allowed!");
+		           }
+		         }
+		       });
 	}
 
 	@Override
@@ -182,6 +195,9 @@ public class Signup_Page extends JFrame implements ActionListener{
 			}
 			else if(!(password.length()>=6)) {
 				JOptionPane.showMessageDialog(null, "Password must be of 6 characters.");
+			}
+			else if(!(phonenumber.length()==10)) {
+				JOptionPane.showMessageDialog(null, "Enter a valid phone number for eg;1234567890.");
 			}
 			else { 
 				try {

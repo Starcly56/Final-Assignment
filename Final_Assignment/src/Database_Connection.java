@@ -43,7 +43,7 @@ public class Database_Connection {
 			output=prpdstmt.executeUpdate();
 		}
 		catch(Exception ex) {
-			JOptionPane.showMessageDialog(null, "Email is already taken.");
+			JOptionPane.showMessageDialog(null, ex);
 		}
 		return output;
 	}
